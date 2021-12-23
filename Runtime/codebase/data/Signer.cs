@@ -5,6 +5,7 @@
     {
         public PublicKey publicKey;
         public byte[] secretKey;
+
     }
 
     public class Ed25519Keypair

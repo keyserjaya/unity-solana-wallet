@@ -36,7 +36,7 @@ namespace AllArt.Solana
         {
             dotnetstandard_bip39.BIP39 p = new dotnetstandard_bip39.BIP39();
 #if MG_SCRIPTS
-            string mnemonic = p.GenerateMnemonic(256, BIP39Wordlist.English, SolanaWalletHelper.GetWordlist(BIP39Wordlist.English));
+            string mnemonic = p.GenerateMnemonic(BIP39Wordlist.English);
 #else
             string mnemonic = p.GenerateMnemonic(256, BIP39Wordlist.English);
 #endif

@@ -1,23 +1,16 @@
 using System;
-using AllArt.Solana.Utility;
 
-namespace AllArt.Solana.Nft
+namespace AllArt.Solana
 {
-    [System.Serializable]
     public class NFTProData
     {
-        public string type;
-        public uint version;
-        public string mint;
-        public string metadata;
         public string title;
         public string description;
-        public string creator;
-        public string collection;
-        public string licence;
-        public string licence_title;
-        public bool nsfw;
-        public string[] tags;
+        public string[] licences;
+        public string artist;
+        public string camm;
+        public string lortMint;
+        public string fileHash;
 
         public static NFTProData DeserializeNFTProData(string base64)
         {
@@ -25,38 +18,19 @@ namespace AllArt.Solana.Nft
 
             NFTProData swapData = new NFTProData();
 
-            int index = 0;
+            ObjectToByte.DecodeUTF8StringFromByte(data, 0, 20, out swapData.title);
+            ObjectToByte.DecodeUTF8StringFromByte(data, 20, 64, out swapData.description);
 
-            ObjectToByte.DecodeUTF8StringFromByte(data, 0, 4, out swapData.type);
-
-            index+= 4;
-            ObjectToByte.DecodeUIntFromByte(data, index, out swapData.version);
-            index += 4;
-            ObjectToByte.DecodeUTF8StringFromByte(data, index, 32, out swapData.mint);
-            index += 32;
-
-            ObjectToByte.DecodeUTF8StringFromByte(data, index, 32, out swapData.metadata);
-            index += 32;
-            ObjectToByte.DecodeUTF8StringFromByte(data, index, 20, out swapData.title);
-            index += 20;
-            ObjectToByte.DecodeUTF8StringFromByte(data, index, 64, out swapData.description);
-            index += 64;
-            ObjectToByte.DecodeUTF8StringFromByte(data, index, 64, out swapData.creator);
-            index += 64;
-            ObjectToByte.DecodeUTF8StringFromByte(data, index, 100, out swapData.licence);
-            index += 100;
-            ObjectToByte.DecodeUTF8StringFromByte(data, index, 20, out swapData.licence_title);
-            index += 20;
-            swapData.nsfw = BitConverter.ToBoolean(data, index);
-            index++;
-
-
-            swapData.tags = new string[10];
-            for (int i = index, ind = 0; i < 10 * 15 + index; i += 15, ind++)
+            swapData.licences = new string[20];
+            for (int i = 84, ind = 0; i < 20 * 32 + 84; i += 32, ind++)
             {
                 ObjectToByte.DecodeBase58StringFromByte(data, i, 32, out string key);
-                swapData.tags[ind] = key;
+                swapData.licences[ind] = key;
             }
+
+            ObjectToByte.DecodeBase58StringFromByte(data, 724, 32, out swapData.artist);
+            ObjectToByte.DecodeBase58StringFromByte(data, 756, 32, out swapData.camm);
+            ObjectToByte.DecodeBase58StringFromByte(data, 788, 32, out swapData.lortMint);
 
             return swapData;
         }

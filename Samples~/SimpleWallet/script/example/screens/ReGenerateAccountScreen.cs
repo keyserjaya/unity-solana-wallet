@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace AllArt.Solana.Example
 {
-    public class ReGenerateAccountScreen : SimpleScreen
+    public class ReGenerateAccountScreen : Screen
     {
         public TMP_InputField mnemonic_txt;
         public Button generate_btn;

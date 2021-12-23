@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ReceiveScreen : SimpleScreen
+public class ReceiveScreen : Screen
 {
     public Button airdrop_btn;
     public Button close_btn;

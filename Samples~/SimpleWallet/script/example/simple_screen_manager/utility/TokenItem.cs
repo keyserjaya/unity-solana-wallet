@@ -1,62 +1,51 @@
+using AllArt.Solana.Example;
 using Solnet.Rpc.Models;
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace AllArt.Solana.Example
+namespace AllArt.Solana
 {
+
     public class TokenItem : MonoBehaviour
     {
         public TextMeshProUGUI pub_txt;
         public TextMeshProUGUI ammount_txt;
 
-        public RawImage logo;
+        public Image logo;
 
         public Button transferButton;
 
         TokenAccount tokenAccount;
-        Nft.Nft nft;
-        SimpleScreen parentScreen;
+        Screen parentScreen;
 
         private void Start()
         {
-            logo = GetComponentInChildren<RawImage>();
-
-            transferButton.onClick.AddListener(() =>
-            {
+            transferButton.onClick.AddListener(() => {
                 TransferAccount();
             });
         }
 
-        public void InitializeData(TokenAccount tokenAccount, SimpleScreen screen, AllArt.Solana.Nft.Nft nftData = null)
+        public void InitializeData(TokenAccount tokenAccount, Screen screen, KnownToken knownToken = null)
         {
             parentScreen = screen;
             this.tokenAccount = tokenAccount;
-            if (nftData != null)
+            ammount_txt.text = tokenAccount.Account.Data.Parsed.Info.TokenAmount.Amount.ToString();
+            if (knownToken != null)
             {
-                nft = nftData;
-                ammount_txt.text = "";
-                pub_txt.text = nftData.metaplexData.data.name;
-                logo.texture = nftData.metaplexData.nftImage.file;
+                pub_txt.text = knownToken.name;
+                logo.sprite = knownToken.logo;
             }
-            else
-            {
-                ammount_txt.text = tokenAccount.Account.Data.Parsed.Info.TokenAmount.Amount.ToString();
+            else {
                 logo.gameObject.SetActive(false);
-                pub_txt.text = tokenAccount.Account.Data.Parsed.Info.Mint;
+                pub_txt.text = tokenAccount.Account.Data.Parsed.Info.Mint;// pubkey;
             }
         }
 
-        public void TransferAccount()
-        {
-            if (nft != null)
-            {
-                parentScreen.manager.ShowScreen(parentScreen, "transfer_screen", nft);
-            }
-            else
-            {
-                parentScreen.manager.ShowScreen(parentScreen, "transfer_screen", tokenAccount);
-            }
+        public void TransferAccount() {
+            parentScreen.manager.ShowScreen(parentScreen, "transfer_screen", tokenAccount);
         }
     }
 }

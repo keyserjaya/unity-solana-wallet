@@ -1,5 +1,5 @@
 
-﻿namespace AllArt.Solana.Utility
+﻿namespace AllArt.Solana
 {
     using System.Collections.Generic;
 
