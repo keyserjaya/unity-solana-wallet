@@ -1,0 +1,1 @@
+Source: https://github.com/elucidsoft/dotnetstandard-bip39/tree/be9290f7e25bdccfdd6afd85db4e3e55f65fe935/dotnetstandard-bip39/wordlists

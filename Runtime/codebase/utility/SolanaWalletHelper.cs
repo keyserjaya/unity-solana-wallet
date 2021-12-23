@@ -1,3 +1,4 @@
+#define TEST_WEBGL_FIX
 using dotnetstandard_bip39;
 using System;
 using System.Collections.Generic;
@@ -18,21 +19,21 @@ public class SolanaWalletHelper {
                 {BIP39Wordlist.Spanish.ToString(), "spanish"}
             };
 
+#if TEST_WEBGL_FIX
         var wordListFile = wordlists[wordlist.ToString()];
 
-        TextAsset worldListResultsAsset = UnityEngine.Resources.Load<TextAsset>("Wordlists/" + wordListFile);
+        TextAsset worldListResultsAsset = UnityEngine.Resources.Load<TextAsset>("wordlists/" + wordListFile);
         var fileContents = worldListResultsAsset.text;
 
-
         return fileContents.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-
-        /*Modified the following code to make it work during runtime
+#else
+        //Modified the following code to make it work during runtime
         var wordListFile = wordlists[wordlist.ToString()];
 
         var wordListResults = UnityEngine.Resources.ResourceManager.GetString(wordListFile)
             .Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 
         return wordListResults;
-        */
+#endif
     }
 }
